@@ -4,8 +4,7 @@ pipeline {
    environment {
      
      SERVICE_NAME = "webapp"
-     REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/devhub-social-organization
--${SERVICE_NAME}:${BUILD_ID}"
+     REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/devhub-social-organization/${SERVICE_NAME}:${BUILD_ID}"
    }
 
    stages {
