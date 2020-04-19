@@ -13,7 +13,7 @@ spec:
         app: webapp
     spec:
       containers:
-      - name: webapp
+      - name: devhub-webapp
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: production-microservice
