@@ -4,7 +4,7 @@ pipeline {
    environment {
      
      SERVICE_NAME = "webapp"
-     REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/devhub-social-organization-${SERVICE_NAME}:${BUILD_ID}"
+     REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/${SERVICE_NAME}:${BUILD_ID}"
    }
 
    stages {
@@ -27,11 +27,8 @@ pipeline {
 
       stage('Build and Push Image') {
          steps {
-           withCredentials([string(credentialsId: 'Docker_Hub_ID', variable: 'Docker_Hub_ID')]) {
-           sh "docker login -u steven8519 -p ${Docker_Hub_ID}"
+            sh 'docker push ${REPOSITORY_TAG}'
          }
-           sh 'docker push steven8519/webapp'
-        }
       }
 
       stage('Deploy to Cluster') {
