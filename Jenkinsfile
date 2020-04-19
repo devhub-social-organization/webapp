@@ -25,12 +25,15 @@ pipeline {
          }
       }
 
-      stage('Push Image') {
-         steps {
-            sh 'docker push steven8519/webapp'
-         }
+      stage('Build') {
+            steps {
+              script {
+                def image = docker.build "steven8519/webapp"
+                image.push()
+                image.push('latest')
+              }
+            }
       }
-
       stage('Deploy to Cluster') {
           steps {
             kubernetesDeploy(
