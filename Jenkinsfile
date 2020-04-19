@@ -25,11 +25,13 @@ pipeline {
          }
       }
 
-      stage('Push Docker Image'){
-         withCredentials([string(credentialsId: 'Docker_Hub_ID', variable: 'Docker_Hub_ID')]) {
+      stage('Build and Push Image') {
+         steps {
+           withCredentials([string(credentialsId: 'Docker_Hub_ID', variable: 'Docker_Hub_ID')]) {
            sh "docker login -u steven8519 -p ${Docker_Hub_ID}"
          }
-           sh 'docker push ${REPOSITORY_TAG}'
+           sh 'docker push steven8519/webapp'
+        }
       }
 
       stage('Deploy to Cluster') {
