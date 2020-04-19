@@ -31,7 +31,7 @@ pipeline {
         steps{
           script {
             docker.withRegistry( '', registryCredential ) {
-            dockerImage.push()
+            sh 'docker push steven8519/webapp'
             }
           }
         }
