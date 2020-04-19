@@ -3,7 +3,7 @@ pipeline {
 
    environment {
 
-     registryCredential = "dockerhub"
+     registryCredential = "docker_hub"
      dockerImage = ""
      SERVICE_NAME = "webapp"
      REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/${SERVICE_NAME}"
