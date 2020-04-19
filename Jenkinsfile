@@ -27,7 +27,7 @@ pipeline {
 
       stage('Push Image') {
          steps {
-            sh 'docker push ${REPOSITORY_TAG}'
+            sh 'docker push steven8519/webapp'
          }
       }
 
