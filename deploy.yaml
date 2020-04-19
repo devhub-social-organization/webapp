@@ -1,21 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: devhub-webapp
+  name: webapp
+  labels:
+    app: webapp
 spec:
+  ports:
+    - port: 8080
+      name: http
   selector:
     app: webapp
-  ports:
-    - name: http
-      port: 8080
-  type: ClusterIP
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: devhub-webapp
-  labels:
-    account: webapp
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -36,7 +30,6 @@ spec:
         app: webapp
         version: v1
     spec:
-      serviceAccountName: devhub-webapp
       containers:
         - name: webapp
           image: steven8519/webapp
