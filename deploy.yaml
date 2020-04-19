@@ -18,7 +18,7 @@ spec:
         - name: SPRING_PROFILES_ACTIVE
           value: production-microservice
         image: steven8519/webapp
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Never
         readinessProbe:
           httpGet:
             path: /
