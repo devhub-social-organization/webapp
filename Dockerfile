@@ -1,24 +1,39 @@
-FROM nginx:1.14.0-alpine
+# Create image based on the Skaffolder Node ES6 image
+FROM skaffolder/angular6-base as builder
 
-MAINTAINER Steven mcDonald "mcdonaldawsdeveloper@gmail.com"
+# Copy source files
+WORKDIR /build
+COPY . /build
 
-RUN apk --no-cache add \
-      python2 \
-      py2-pip && \
-    pip2 install j2cli[yaml]
+# Move source file with node_modules
+RUN mv /source/node_modules /build/node_modules
 
-RUN apk add --update bash && rm -rf /var/cache/apk/*
+# Install dependencies
+RUN npm install
 
+# Build prod
+RUN npm run build:prod
+
+# ----------------------------------
+# Prepare production environment
+FROM nginx:alpine
+# ----------------------------------
+
+# Clean nginx
 RUN rm -rf /usr/share/nginx/html/*
 
-ADD /dist /usr/share/nginx/html
+# Copy dist
+COPY --from=builder /build/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
 
-ADD nginx.conf.j2 /templates/
+WORKDIR /usr/share/nginx/html
 
-ADD docker-entrypoint.sh /
+# Permission
+RUN chown root /usr/share/nginx/html/*
+RUN chmod 755 /usr/share/nginx/html/*
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+# Expose port
+EXPOSE 30080
 
-RUN ["chmod", "+x", "/docker-entrypoint.sh"]
-
+# Start
 CMD ["nginx", "-g", "daemon off;"]
