@@ -25,14 +25,10 @@ pipeline {
          }
       }
 
-      stage('Build') {
-        steps {
-           script {
-              def image = docker.build "steven8519/webapp"
-              image.push()
-              image.push('latest')
-           }
-        }
+      stage('Push Image') {
+         steps {
+            sh 'docker push ${REPOSITORY_TAG}'
+         }
       }
 
       stage('Deploy to Cluster') {
