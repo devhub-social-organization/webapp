@@ -6,7 +6,7 @@ metadata:
     app: webapp
 spec:
   ports:
-    - port: 8080
+    - port: 80
       name: http
   selector:
     app: webapp
@@ -35,4 +35,4 @@ spec:
           image: steven8519/webapp
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 8080
+            - containerPort: 80
