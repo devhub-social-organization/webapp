@@ -17,8 +17,8 @@ spec:
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: production-microservice
-        image: ${REPOSITORY_TAG}
-        imagePullPolicy: Always
+        image: steven8519/webapp
+        imagePullPolicy: IfNotPresent
         readinessProbe:
           httpGet:
             path: /
