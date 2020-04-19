@@ -40,4 +40,4 @@ spec:
       containers:
         - name: webapp
           image: steven8519/webapp
-          imagePullPolicy: Always
+          imagePullPolicy: IfNotPresent
