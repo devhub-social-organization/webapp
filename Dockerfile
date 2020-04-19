@@ -11,13 +11,11 @@ RUN apk add --update bash && rm -rf /var/cache/apk/*
 
 RUN rm -rf /usr/share/nginx/html/*
 
-COPY /dist /usr/share/nginx/html
+ADD /dist /usr/share/nginx/html
 
-COPY nginx.conf.j2 /templates/
+ADD nginx.conf.j2 /templates/
 
-COPY docker-entrypoint.sh /
-
-ENTRYPOINT ["/docker-entrypoint.sh"]
+ADD docker-entrypoint.sh /
 
 RUN ["chmod", "+x", "/docker-entrypoint.sh"]
 
