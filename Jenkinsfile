@@ -2,7 +2,9 @@ pipeline {
    agent any
 
    environment {
-     
+
+     registryCredential = "dockerhub"
+     dockerImage = ""
      SERVICE_NAME = "webapp"
      REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/${SERVICE_NAME}"
    }
@@ -25,10 +27,14 @@ pipeline {
          }
       }
 
-      stage('Push Image') {
-         steps {
-            sh 'docker push ${REPOSITORY_TAG}'
-         }
+      stage('Deploy Image') {
+        steps{
+          script {
+            docker.withRegistry( '', registryCredential ) {
+              dockerImage.push()
+            }
+          }
+        }
       }
 
       stage('Deploy to Cluster') {
