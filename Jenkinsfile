@@ -33,6 +33,7 @@ pipeline {
                 image.push('latest')
               }
             }
+         }
       }
       stage('Deploy to Cluster') {
           steps {
