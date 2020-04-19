@@ -34,5 +34,3 @@ spec:
         - name: webapp
           image: steven8519/webapp
           imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 80
