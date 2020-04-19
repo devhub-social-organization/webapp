@@ -1,24 +1,14 @@
-FROM nginx:1.14.0-alpine
+FROM node:10.8.0 as build-stage
+WORKDIR /app
+COPY package*.json /app/
+RUN npm install
+COPY ./ /app/
+ARG configuration=production
+RUN npm run build -- --output-path=./dist/client --configuration $configuration
 
-MAINTAINER Steven mcDonald "mcdonaldawsdeveloper@gmail.com"
-
-RUN apk --no-cache add \
-      python2 \
-      py2-pip && \
-    pip2 install j2cli[yaml]
-
-RUN apk add --update bash && rm -rf /var/cache/apk/*
-
-RUN rm -rf /usr/share/nginx/html/*
-
-ADD /dist /usr/share/nginx/html
-
-ADD nginx.conf.j2 /templates/
-
-ADD docker-entrypoint.sh /
-
-ENTRYPOINT ["/docker-entrypoint.sh"]
-
-RUN ["chmod", "+x", "/docker-entrypoint.sh"]
-
-CMD ["nginx", "-g", "daemon off;"]
+# Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
+FROM nginx:1.15
+#Copy ci-dashboard-dist
+COPY --from=build-stage /app/dist/client/ /usr/share/nginx/html
+#Copy default nginx configuration
+COPY ./nginx.conf.j2 /etc/nginx/conf.d/default.conf
