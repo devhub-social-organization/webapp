@@ -43,6 +43,6 @@ spec:
       containers:
         - name: webapp
           image: steven8519/webapp
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           ports:
             - containerPort: 30080
