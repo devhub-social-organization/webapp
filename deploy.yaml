@@ -1,41 +1,48 @@
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: webapp
-spec:
-  selector:
-    matchLabels:
-      app: webapp
-  replicas: 1
-  template: # template for the pods
-    metadata:
-      labels:
-        app: webapp
-    spec:
-      containers:
-      - name: devhub-webapp
-        env:
-        - name: SPRING_PROFILES_ACTIVE
-          value: production-microservice
-        image: steven8519/webapp
-        imagePullPolicy: Always
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 80
----
 apiVersion: v1
 kind: Service
 metadata:
   name: webapp
-
+  labels:
+    app: webapp
+    service: webapp
 spec:
+  ports:
+    - port: 30080
+      name: http
+  type: NodePort
   selector:
     app: webapp
-
-  ports:
-    - name: http
-      port: 80
-      nodePort: 30080
-
-  type: NodePort
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: devhub-webapp
+  labels:
+    account: webapp
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-v1
+  labels:
+    app: webapp
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: webapp
+        version: v1
+    spec:
+      serviceAccountName: devhub-webapp
+      containers:
+        - name: webapp
+          image: steven8519/webapp
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 30080
