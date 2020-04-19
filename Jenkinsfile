@@ -2,11 +2,11 @@ pipeline {
    agent any
 
    environment {
-
-     registryCredential = "docker_hub"
-     dockerImage = ""
      SERVICE_NAME = "webapp"
      REPOSITORY_TAG="${YOUR_DOCKERHUB_USERNAME}/${SERVICE_NAME}"
+     registry = "steven8519/webapp"
+     registryCredential = 'docker_hub'
+     dockerImage = ''
    }
 
    stages {
@@ -31,7 +31,7 @@ pipeline {
         steps{
           script {
             docker.withRegistry( '', registryCredential ) {
-              dockerImage.push()
+            dockerImage.push()
             }
           }
         }
