@@ -39,11 +39,7 @@ pipeline {
 
       stage('Deploy to Cluster') {
           steps {
-            kubernetesDeploy(
-               configs: 'deploy.yaml',
-               kubeconfigId: 'KUBERNATES_CONFIG',
-               enableConfigSubstitution: true
-            )
+            sh 'kubectl apply -f deploy.yaml'
           }
       }
    }
