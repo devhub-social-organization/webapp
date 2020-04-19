@@ -17,6 +17,8 @@ COPY nginx.conf.j2 /templates/
 
 COPY docker-entrypoint.sh /
 
-ENTRYPOINT ["chmod", "+x", "/docker-entrypoint.sh"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+RUN ["chmod", "+x", "/docker-entrypoint.sh"]
 
 CMD ["nginx", "-g", "daemon off;"]
