@@ -19,13 +19,13 @@ pipeline {
          }
       }
 
-      stage('Build and Push Image') {
+      stage('Build docker image') {
          steps {
            sh 'docker image build -t ${REPOSITORY_TAG} .'
          }
       }
 
-      stage('Build and Push Image') {
+      stage('Push Image') {
          steps {
             sh 'docker push ${REPOSITORY_TAG}'
          }
